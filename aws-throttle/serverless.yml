@@ -1,0 +1,24 @@
+service: aws-throttle
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+custom:
+  # Configures throttling settings for the API Gateway stage
+  # They apply to all http endpoints, unless specifically overridden
+  apiGatewayThrottling:
+    maxRequestsPerSecond: 1
+    maxConcurrentRequests: 1
+
+plugins:
+  - serverless-api-gateway-throttling
+
+functions:
+  function1:
+    handler: index.handler
+    events:
+      - http:
+          path: /api/v1
+          method: get
